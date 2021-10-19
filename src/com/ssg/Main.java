@@ -42,8 +42,38 @@ public class Main {
 					System.out.printf("%4d | %12s\n", article.articleId, article.title);
 				}
 				
-			} else if(command.equals("article detail")) {
-				System.out.println("article detail");
+			} else if(command.startsWith("article detail ")) {
+				command = command.trim();
+				String[] commandBits = command.split(" ");
+				String checkStr = commandBits[2];
+				
+				boolean checkInt = checkStr.matches("-?\\d+");
+				int foundId;
+				
+				if(checkInt) {
+					foundId = Integer.parseInt(checkStr);
+				} else {
+					System.out.println("숫자만 입력해주세요.");
+					continue;
+				}
+				
+				Article foundArticle = null;
+				
+				for(Article article : articles) {
+					if(article.articleId == foundId) {
+						foundArticle = article;
+					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+				
+				System.out.println("번호 : " + foundArticle.articleId);
+				System.out.println("제목 : " + foundArticle.title);
+				System.out.println("내용 : " + foundArticle.body);
+				System.out.println("=============");
 			} else if(command.equals("article modify")) {
 				System.out.println("article modify");
 			} else if(command.equals("system exit")) {
