@@ -11,11 +11,14 @@ import java.util.Scanner;
 import com.ssg.util.Util;
 
 public class Main {
+	
+	static List<Article> articles = new ArrayList<>();
 
 	public static void main(String[] args) {
 		System.out.println("==== 프로그램 시작 ====");
 		Scanner scanner = new Scanner(System.in);
-		List<Article> articles = new ArrayList<>();
+		
+		makeTestData();
 		
 		while(true) {
 			System.out.printf("명령어를 입력해주세요 : ");
@@ -39,9 +42,9 @@ public class Main {
 				// Article article => 껍데기
 				// articels => 실제 데이터
 				
-				System.out.printf(" 번호  /   제목\n");
+				System.out.printf(" 번호  / 조회수 /   제목\n");
 				for(Article article : articles) {
-					System.out.printf("%4d / %12s\n", article.articleId, article.title);
+					System.out.printf("%4d / %4d / %12s\n", article.articleId, article.hit, article.title);
 				}
 				
 			} else if(command.startsWith("article detail ")) {
@@ -78,8 +81,11 @@ public class Main {
 					continue;
 				}
 				
+				foundArticle.increaseHit();
+				
 				System.out.println("번호 : " + foundArticle.articleId);
 				System.out.println("작성날짜 : " + foundArticle.regDate);
+				System.out.println("조회수 : " + foundArticle.hit);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 				System.out.println("=============");
@@ -177,6 +183,14 @@ public class Main {
 		
 		System.out.println("==== 프로그램 끝 ====");
 	}
+
+	static void makeTestData() {
+		articles.add(new Article("제목1", "내용1"));
+		articles.add(new Article("제목2", "내용2"));
+		articles.add(new Article("제목3", "내용3"));
+		
+		System.out.println("테스트 데이터를 생성했습니다.");
+	}
 }
 
 class Article {
@@ -186,14 +200,20 @@ class Article {
 	String title;
 	String body;
 	String regDate;
+	int hit;
 	
 	// Article class가 생길때마다 아래 생성자 실행
 	// index 값이 1 오름(누적 데이터)
+	
 	Article(String title, String body) {
 		this.index++;
 		this.articleId = index;
 		this.title = title;
 		this.body = body;
 		this.regDate = Util.getNowDateStr();
+	}
+	
+	void increaseHit() {
+		this.hit++;
 	}
 }
