@@ -126,6 +126,45 @@ public class Main {
 				
 				System.out.println(foundArticle.articleId + "번 게시물이 수정되었습니다.");
 				
+			} else if(command.startsWith("article delete ")) {
+			
+				command = command.trim();
+				String[] commandBits = command.split(" ");
+				
+				if(commandBits.length > 3) {
+					System.out.println("명령어를 잘못입력하셨습니다.");
+					continue;
+				}
+				
+				String checkStr = commandBits[2];
+				
+				boolean checkInt = checkStr.matches("-?\\d+");
+				int foundId;
+				
+				if(checkInt) {
+					foundId = Integer.parseInt(checkStr);
+				} else {
+					System.out.println("숫자만 입력해주세요.");
+					continue;
+				}
+				
+				Article foundArticle = null;
+				
+				for(Article article : articles) {
+					if(article.articleId == foundId) {
+						foundArticle = article;
+					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+				
+				articles.remove(foundArticle);
+				
+				System.out.println(foundArticle.articleId + "번 게시물이 삭제되었습니다.");
+				
 			} else if(command.equals("system exit")) {
 				break;
 			} else {
