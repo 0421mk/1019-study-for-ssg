@@ -37,14 +37,20 @@ public class Main {
 				// Article article => 껍데기
 				// articels => 실제 데이터
 				
-				System.out.printf(" 번호 |   제목\n");
+				System.out.printf(" 번호  /   제목\n");
 				for(Article article : articles) {
-					System.out.printf("%4d | %12s\n", article.articleId, article.title);
+					System.out.printf("%4d / %12s\n", article.articleId, article.title);
 				}
 				
 			} else if(command.startsWith("article detail ")) {
 				command = command.trim();
 				String[] commandBits = command.split(" ");
+				
+				if(commandBits.length > 3) {
+					System.out.println("명령어를 잘못입력하셨습니다.");
+					continue;
+				}
+				
 				String checkStr = commandBits[2];
 				
 				boolean checkInt = checkStr.matches("-?\\d+");
@@ -74,8 +80,52 @@ public class Main {
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 				System.out.println("=============");
-			} else if(command.equals("article modify")) {
-				System.out.println("article modify");
+			} else if(command.startsWith("article modify ")) {
+			
+				command = command.trim();
+				String[] commandBits = command.split(" ");
+				
+				if(commandBits.length > 3) {
+					System.out.println("명령어를 잘못입력하셨습니다.");
+					continue;
+				}
+				
+				String checkStr = commandBits[2];
+				
+				boolean checkInt = checkStr.matches("-?\\d+");
+				int foundId;
+				
+				if(checkInt) {
+					foundId = Integer.parseInt(checkStr);
+				} else {
+					System.out.println("숫자만 입력해주세요.");
+					continue;
+				}
+				
+				Article foundArticle = null;
+				
+				for(Article article : articles) {
+					if(article.articleId == foundId) {
+						foundArticle = article;
+					}
+				}
+				
+				if(foundArticle == null) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+				
+				System.out.printf("제목 : ");
+				String title = scanner.nextLine();
+				
+				System.out.printf("내용 : ");
+				String body = scanner.nextLine();
+				
+				foundArticle.title = title;
+				foundArticle.body = body;
+				
+				System.out.println(foundArticle.articleId + "번 게시물이 수정되었습니다.");
+				
 			} else if(command.equals("system exit")) {
 				break;
 			} else {
