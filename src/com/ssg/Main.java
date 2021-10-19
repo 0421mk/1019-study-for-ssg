@@ -33,7 +33,15 @@ public class Main {
 				System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
 				
 			} else if(command.equals("article list")) {
-				System.out.println("article list");
+				
+				// Article article => 껍데기
+				// articels => 실제 데이터
+				
+				System.out.printf(" 번호 |   제목\n");
+				for(Article article : articles) {
+					System.out.printf("%4d | %12s\n", article.articleId, article.title);
+				}
+				
 			} else if(command.equals("article detail")) {
 				System.out.println("article detail");
 			} else if(command.equals("article modify")) {
@@ -56,6 +64,8 @@ class Article {
 	String title;
 	String body;
 	
+	// Article class가 생길때마다 아래 생성자 실행
+	// index 값이 1 오름(누적 데이터)
 	Article(String title, String body) {
 		this.index++;
 		this.articleId = index;
