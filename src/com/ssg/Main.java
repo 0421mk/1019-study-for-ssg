@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ssg.util.Util;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -77,6 +79,7 @@ public class Main {
 				}
 				
 				System.out.println("번호 : " + foundArticle.articleId);
+				System.out.println("작성날짜 : " + foundArticle.regDate);
 				System.out.println("제목 : " + foundArticle.title);
 				System.out.println("내용 : " + foundArticle.body);
 				System.out.println("=============");
@@ -182,6 +185,7 @@ class Article {
 	int articleId;
 	String title;
 	String body;
+	String regDate;
 	
 	// Article class가 생길때마다 아래 생성자 실행
 	// index 값이 1 오름(누적 데이터)
@@ -190,5 +194,6 @@ class Article {
 		this.articleId = index;
 		this.title = title;
 		this.body = body;
+		this.regDate = Util.getNowDateStr();
 	}
 }
