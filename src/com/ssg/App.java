@@ -32,13 +32,37 @@ public class App {
 
 				System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
 
-			} else if (command.equals("article list")) {
-
+			} else if (command.startsWith("article list")) {
+				
+				if(articles.size() == 0) {
+					System.out.println("게시물이 없습니다.");
+					continue;
+				}
+				
+				String searchKeyword = command.substring("article list".length()).trim();
+				
+				List<Article> searchedArticles = new ArrayList<>();
+				
+				if(searchKeyword.length() > 0) {
+					for(Article article : articles) {
+						if(article.title.contains(searchKeyword)) {
+							searchedArticles.add(article);
+						}
+					}
+					
+					if(searchedArticles.size() == 0) {
+						System.out.println("검색된 게시물이 없습니다..");
+						continue;
+					}
+				} else {
+					searchedArticles = articles;
+				}
+				
 				// Article article => 껍데기
 				// articels => 실제 데이터
 
 				System.out.printf(" 번호  / 조회수 /   제목\n");
-				for (Article article : articles) {
+				for (Article article : searchedArticles) {
 					System.out.printf("%4d / %4d / %12s\n", article.articleId, article.hit, article.title);
 				}
 
@@ -59,7 +83,7 @@ public class App {
 					continue;
 				}
 
-				Article foundArticle = getFountArticleById(foundId);
+				Article foundArticle = getFoundArticleById(foundId);
 
 				if (foundArticle == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
@@ -92,7 +116,7 @@ public class App {
 					continue;
 				}
 
-				Article foundArticle = getFountArticleById(foundId);
+				Article foundArticle = getFoundArticleById(foundId);
 				
 				if (foundArticle == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
@@ -128,7 +152,7 @@ public class App {
 					continue;
 				}
 
-				Article foundArticle = getFountArticleById(foundId);
+				Article foundArticle = getFoundArticleById(foundId);
 
 				if (foundArticle == null) {
 					System.out.println("게시물이 존재하지 않습니다.");
@@ -168,7 +192,7 @@ public class App {
 		return foundId;
 	}
 	
-	Article getFountArticleById(int foundId) {
+	Article getFoundArticleById(int foundId) {
 		Article foundArticle = null;
 		
 		for (Article article : articles) {
