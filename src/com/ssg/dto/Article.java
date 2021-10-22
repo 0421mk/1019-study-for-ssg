@@ -2,7 +2,7 @@ package com.ssg.dto;
 
 import com.ssg.util.Util;
 
-public class Article {
+public class Article extends Dto {
 	// index란 static 변수가 0으로 1회(만!) 초기화됨. 그 뒤로 값이 누적
 	public static int index = 0;
 	public int articleId;
