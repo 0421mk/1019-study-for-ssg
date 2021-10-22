@@ -34,7 +34,7 @@ public class App {
 					
 					for (Member member : members) {
 						if(member.loginId.equals(loginId)) {
-							isJoinable = true;
+							isJoinable = confirmLoginId(loginId);;
 							break; // 다시 while 로 돌아감
 						}
 					}
@@ -236,6 +236,19 @@ public class App {
 		articles.add(new Article("제목3", "내용3"));
 		
 		System.out.println("테스트 데이터를 생성했습니다.");
+	}
+	
+	boolean confirmLoginId(String loginId) {
+		boolean isJoinable = false;
+		
+		for (Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				isJoinable = true;
+				break; // 다시 while 로 돌아감
+			}
+		}
+		
+		return isJoinable;
 	}
 	
 	int getFoundIdByCheckStr(String checkStr) {
