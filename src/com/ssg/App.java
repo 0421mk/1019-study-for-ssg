@@ -4,19 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ssg.controller.MemberController;
 import com.ssg.dto.Article;
 import com.ssg.dto.Member;
 
 public class App {
 	
-	List<Article> articles = new ArrayList<>();
-	List<Member> members = new ArrayList<>();
+	List<Article> articles;
+	List<Member> members;
+	
+	App() {
+		articles = new ArrayList<>();
+		members = new ArrayList<>();
+	}
 	
 	void start() {
 		System.out.println("==== 프로그램 시작 ====");
 		Scanner scanner = new Scanner(System.in);
 
 		makeTestData();
+		
+		MemberController memberController = new MemberController(scanner, members);
 
 		while (true) {
 			System.out.printf("명령어를 입력해주세요 : ");
@@ -24,58 +32,8 @@ public class App {
 
 			if (command.equals("member join")) {
 				
-				String loginId = null;
+				memberController.doJoin();
 				
-				while (true) {
-					boolean isJoinable = false;
-					
-					System.out.printf("회원가입 ID : ");
-					loginId = scanner.nextLine();
-					
-					for (Member member : members) {
-						if(member.loginId.equals(loginId)) {
-							isJoinable = confirmLoginId(loginId);;
-							break; // 다시 while 로 돌아감
-						}
-					}
-					
-					if(isJoinable) {
-						System.out.println("이미 존재하는 아이디입니다.");
-						continue;
-					}
-					
-					break;
-				}
-				
-				
-				// 이미 존재하는 아이디입니다.
-				String loginPw = null;
-				String loginPwConfirm = null;
-				while (true) {
-					System.out.printf("회원가입 PW : ");
-					loginPw = scanner.nextLine();
-					
-					System.out.printf("회원가입 PW 확인 : ");
-					loginPwConfirm = scanner.nextLine();
-					
-					if(!loginPw.equals(loginPwConfirm)) {
-						System.out.println("비밀번호 확인을 확인해주세요.");
-						continue;
-					}
-					
-					break;
-				}
-				
-				// 비밀번호 확인이 다릅니다.
-				
-				System.out.printf("회원가입 이름 : ");
-				String name = scanner.nextLine();
-				
-				Member member = new Member(loginId, loginPw, name);
-				members.add(member);
-				
-				System.out.println(member.memberId + "번 회원이 생성되었습니다.");
-
 			} else if (command.equals("article write")) {
 
 				System.out.printf("제목 : ");
@@ -236,19 +194,6 @@ public class App {
 		articles.add(new Article("제목3", "내용3"));
 		
 		System.out.println("테스트 데이터를 생성했습니다.");
-	}
-	
-	boolean confirmLoginId(String loginId) {
-		boolean isJoinable = false;
-		
-		for (Member member : members) {
-			if(member.loginId.equals(loginId)) {
-				isJoinable = true;
-				break; // 다시 while 로 돌아감
-			}
-		}
-		
-		return isJoinable;
 	}
 	
 	int getFoundIdByCheckStr(String checkStr) {
