@@ -6,14 +6,39 @@ import java.util.Scanner;
 
 import com.ssg.dto.Article;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	private Scanner scanner;
 	private List<Article> articles;
+	private String command;
+	private String actionMethodName;
 
 	public ArticleController(Scanner scanner, List<Article> articles) {
 		this.scanner = scanner;
 		this.articles = articles;
+	}
+
+	public void doAction(String command, String actionMethodName) {
+		this.command = command;
+		this.actionMethodName = actionMethodName;
+
+		switch (actionMethodName) {
+		case "write":
+			doWrite();
+			break;
+		case "list":
+			showList();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "modify":
+			doModify();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		}
 	}
 
 	public void doWrite() {
@@ -29,7 +54,7 @@ public class ArticleController {
 		System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
 	}
 
-	public void showList(String command) {
+	public void showList() {
 
 		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다.");
@@ -65,7 +90,7 @@ public class ArticleController {
 
 	}
 
-	public void showDetail(String command) {
+	public void showDetail() {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -100,7 +125,7 @@ public class ArticleController {
 
 	}
 
-	public void doModify(String command) {
+	public void doModify() {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -137,7 +162,7 @@ public class ArticleController {
 
 	}
 
-	public void doDelete(String command) {
+	public void doDelete() {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
