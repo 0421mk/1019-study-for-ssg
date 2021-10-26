@@ -40,13 +40,19 @@ public class ArticleController extends Controller {
 	}
 
 	private void doWrite() {
+		
+		if (loginedMember == null) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		
 		System.out.printf("제목 : ");
 		String title = scanner.nextLine();
 
 		System.out.printf("내용 : ");
 		String body = scanner.nextLine();
 
-		Article article = new Article(title, body);
+		Article article = new Article(title, body, loginedMember.memberId, loginedMember.name);
 		articles.add(article);
 
 		System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
@@ -116,6 +122,7 @@ public class ArticleController extends Controller {
 
 		System.out.println("번호 : " + foundArticle.articleId);
 		System.out.println("작성날짜 : " + foundArticle.regDate);
+		System.out.println("작성자 : " + foundArticle.memberName);
 		System.out.println("조회수 : " + foundArticle.hit);
 		System.out.println("제목 : " + foundArticle.title);
 		System.out.println("내용 : " + foundArticle.body);
@@ -214,9 +221,9 @@ public class ArticleController extends Controller {
 	}
 	
 	public void makeTestData() {
-		articles.add(new Article("제목1", "내용1"));
-		articles.add(new Article("제목2", "내용2"));
-		articles.add(new Article("제목3", "내용3"));
+		articles.add(new Article("제목1", "내용1", 1, "admin"));
+		articles.add(new Article("제목2", "내용2", 1, "admin"));
+		articles.add(new Article("제목3", "내용3", 1, "admin"));
 
 		System.out.println("게시물의 테스트 데이터를 생성했습니다.");
 	}

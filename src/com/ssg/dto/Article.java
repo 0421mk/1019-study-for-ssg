@@ -10,16 +10,20 @@ public class Article extends Dto {
 	public String body;
 	public String regDate;
 	public int hit;
+	public int memberId;
+	public String memberName;
 
 	// Article class가 생길때마다 아래 생성자 실행
 	// index 값이 1 오름(누적 데이터)
 
-	public Article(String title, String body) {
+	public Article(String title, String body, int memberId, String memberName) {
 		this.index++;
 		this.articleId = index;
 		this.title = title;
 		this.body = body;
 		this.regDate = Util.getNowDateStr();
+		this.memberId = memberId;
+		this.memberName = memberName;
 	}
 
 	public void increaseHit() {
