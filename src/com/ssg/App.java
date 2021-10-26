@@ -22,7 +22,7 @@ public class App {
 		Controller controller = null;
 		
 		Container.articleDao.makeTestData();
-		memberController.makeTestData();
+		Container.memberDao.makeTestData();
 
 		while (true) {
 			System.out.printf("명령어를 입력해주세요 : ");

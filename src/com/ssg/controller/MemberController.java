@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.ssg.container.Container;
-import com.ssg.dto.Article;
 import com.ssg.dto.Member;
+import com.ssg.service.MemberService;
 
 public class MemberController extends Controller {
 
 	private Scanner scanner;
-	private List<Member> members;
+	private MemberService memberService;
 
 	public MemberController(Scanner scanner) {
 		this.scanner = scanner;
-		this.members = Container.memberDao.members;
+		this.memberService = new MemberService();
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -44,20 +44,12 @@ public class MemberController extends Controller {
 		String loginId = null;
 
 		while (true) {
-			boolean isJoinable = false;
-
 			System.out.printf("회원가입 ID : ");
 			loginId = scanner.nextLine();
-
-			for (Member member : members) {
-				if (member.loginId.equals(loginId)) {
-					isJoinable = confirmLoginId(loginId);
-					;
-					break; // 다시 while 로 돌아감
-				}
-			}
-
-			if (isJoinable) {
+			
+			Member foundMember = memberService.getMemberByLoginId(loginId);
+			
+			if (foundMember != null) {
 				System.out.println("이미 존재하는 아이디입니다.");
 				continue;
 			}
@@ -87,7 +79,7 @@ public class MemberController extends Controller {
 		String name = scanner.nextLine();
 
 		Member member = new Member(loginId, loginPw, name);
-		members.add(member);
+		memberService.add(member);
 
 		System.out.println(member.memberId + "번 회원이 생성되었습니다.");
 
@@ -106,7 +98,7 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 PW : ");
 		String loginPw = scanner.nextLine();
 
-		Member foundMember = getMemberByLoginId(loginId);
+		Member foundMember = memberService.getMemberByLoginId(loginId);
 
 		if (foundMember == null) {
 			System.out.println("존재하지 않는 아이디입니다.");
@@ -135,38 +127,5 @@ public class MemberController extends Controller {
 
 		System.out.println("로그아웃 하였습니다");
 
-	}
-
-	boolean confirmLoginId(String loginId) {
-		boolean isJoinable = false;
-
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				isJoinable = true;
-				break; // 다시 while 로 돌아감
-			}
-		}
-
-		return isJoinable;
-	}
-
-	Member getMemberByLoginId(String loginId) {
-		Member foundMember = null;
-
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				foundMember = member;
-			}
-		}
-
-		return foundMember;
-	}
-
-	public void makeTestData() {
-		members.add(new Member("admin", "admin", "admin"));
-		members.add(new Member("user1", "user1", "user1"));
-		members.add(new Member("user2", "user2", "user2"));
-
-		System.out.println("유저의 테스트 데이터를 생성했습니다.");
 	}
 }
