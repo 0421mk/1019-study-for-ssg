@@ -131,6 +131,7 @@ public class ArticleController extends Controller {
 	}
 
 	private void doModify(String command) {
+		
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -151,6 +152,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.println("게시물이 존재하지 않습니다.");
+			return;
+		}
+		
+		if (loginedMember.memberId != foundArticle.memberId) {
+			System.out.println("권한이 없습니다.");
 			return;
 		}
 
@@ -188,6 +194,11 @@ public class ArticleController extends Controller {
 
 		if (foundArticle == null) {
 			System.out.println("게시물이 존재하지 않습니다.");
+			return;
+		}
+		
+		if (loginedMember.memberId != foundArticle.memberId) {
+			System.out.println("권한이 없습니다.");
 			return;
 		}
 
