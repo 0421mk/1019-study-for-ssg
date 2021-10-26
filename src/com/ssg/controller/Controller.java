@@ -1,7 +1,10 @@
 package com.ssg.controller;
 
-public abstract class Controller {
+import com.ssg.dto.Member;
 
+public abstract class Controller {
+	Member loginedMember = null;
+	
 	public abstract void doAction(String command, String actionMethodName);
 
 }
