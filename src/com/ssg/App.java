@@ -24,11 +24,12 @@ public class App {
 		System.out.println("==== 프로그램 시작 ====");
 		Scanner scanner = new Scanner(System.in);
 
-		makeTestData();
-
 		MemberController memberController = new MemberController(scanner, members);
 		ArticleController articleController = new ArticleController(scanner, articles);
 		Controller controller = null;
+		
+		articleController.makeTestData();
+		memberController.makeTestData();
 
 		while (true) {
 			System.out.printf("명령어를 입력해주세요 : ");
@@ -62,14 +63,6 @@ public class App {
 		}
 
 		System.out.println("==== 프로그램 끝 ====");
-	}
-
-	void makeTestData() {
-		articles.add(new Article("제목1", "내용1"));
-		articles.add(new Article("제목2", "내용2"));
-		articles.add(new Article("제목3", "내용3"));
-
-		System.out.println("테스트 데이터를 생성했습니다.");
 	}
 
 }

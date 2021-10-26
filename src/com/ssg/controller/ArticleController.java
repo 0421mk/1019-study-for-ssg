@@ -212,5 +212,12 @@ public class ArticleController extends Controller {
 
 		return foundArticle;
 	}
+	
+	public void makeTestData() {
+		articles.add(new Article("제목1", "내용1"));
+		articles.add(new Article("제목2", "내용2"));
+		articles.add(new Article("제목3", "내용3"));
 
+		System.out.println("게시물의 테스트 데이터를 생성했습니다.");
+	}
 }
