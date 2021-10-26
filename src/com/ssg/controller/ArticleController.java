@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.ssg.container.Container;
 import com.ssg.dto.Article;
+import com.ssg.service.ArticleService;
 
 public class ArticleController extends Controller {
 
 	private Scanner scanner;
-	private List<Article> articles;
+	private ArticleService articleService;
 
 	public ArticleController(Scanner scanner) {
 		this.scanner = scanner;
-		this.articles = Container.articleDao.articles;
+		this.articleService = new ArticleService();
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -54,39 +54,21 @@ public class ArticleController extends Controller {
 		String body = scanner.nextLine();
 
 		Article article = new Article(title, body, loginedMember.memberId, loginedMember.name);
-		articles.add(article);
+		articleService.add(article);
 
 		System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
 	}
 
 	private void showList(String command) {
 
-		if (articles.size() == 0) {
-			System.out.println("게시물이 없습니다.");
-			return;
-		}
-
 		String searchKeyword = command.substring("article list".length()).trim();
 
-		List<Article> searchedArticles = new ArrayList<>();
-
-		if (searchKeyword.length() > 0) {
-			for (Article article : articles) {
-				if (article.title.contains(searchKeyword)) {
-					searchedArticles.add(article);
-				}
-			}
-
-			if (searchedArticles.size() == 0) {
-				System.out.println("검색된 게시물이 없습니다.");
-				return;
-			}
-		} else {
-			searchedArticles = articles;
+		List<Article> searchedArticles = articleService.getSearchedArticlesByKeyword(searchKeyword);
+		
+		if (searchedArticles.size() == 0) {
+			System.out.println("검색된 게시물이 없습니다.");
+			return;
 		}
-
-		// Article article => 껍데기
-		// articels => 실제 데이터
 
 		System.out.printf(" 번호  / 조회수 /   제목\n");
 		for (Article article : searchedArticles) {
@@ -105,14 +87,14 @@ public class ArticleController extends Controller {
 		}
 
 		String checkStr = commandBits[2];
-		int foundId = getFoundIdByCheckStr(checkStr);
+		int foundId = articleService.getFoundIdByCheckStr(checkStr);
 
 		if (foundId == 0) {
 			System.out.println("숫자만 입력해주세요.");
 			return;
 		}
 
-		Article foundArticle = getFoundArticleById(foundId);
+		Article foundArticle = articleService.getFoundArticleById(foundId);
 
 		if (foundArticle == null) {
 			System.out.println("게시물이 존재하지 않습니다.");
@@ -147,14 +129,14 @@ public class ArticleController extends Controller {
 		}
 
 		String checkStr = commandBits[2];
-		int foundId = getFoundIdByCheckStr(checkStr);
+		int foundId = articleService.getFoundIdByCheckStr(checkStr);
 
 		if (foundId == 0) {
 			System.out.println("숫자만 입력해주세요.");
 			return;
 		}
 
-		Article foundArticle = getFoundArticleById(foundId);
+		Article foundArticle = articleService.getFoundArticleById(foundId);
 
 		if (foundArticle == null) {
 			System.out.println("게시물이 존재하지 않습니다.");
@@ -172,9 +154,8 @@ public class ArticleController extends Controller {
 		System.out.printf("내용 : ");
 		String body = scanner.nextLine();
 
-		foundArticle.title = title;
-		foundArticle.body = body;
-
+		articleService.modify(foundArticle, title, body);
+	
 		System.out.println(foundArticle.articleId + "번 게시물이 수정되었습니다.");
 
 	}
@@ -195,14 +176,14 @@ public class ArticleController extends Controller {
 		}
 
 		String checkStr = commandBits[2];
-		int foundId = getFoundIdByCheckStr(checkStr);
+		int foundId = articleService.getFoundIdByCheckStr(checkStr);
 
 		if (foundId == 0) {
 			System.out.println("숫자만 입력해주세요.");
 			return;
 		}
 
-		Article foundArticle = getFoundArticleById(foundId);
+		Article foundArticle = articleService.getFoundArticleById(foundId);
 
 		if (foundArticle == null) {
 			System.out.println("게시물이 존재하지 않습니다.");
@@ -214,40 +195,9 @@ public class ArticleController extends Controller {
 			return;
 		}
 
-		articles.remove(foundArticle);
+		articleService.remove(foundArticle);
 
 		System.out.println(foundArticle.articleId + "번 게시물이 삭제되었습니다.");
 
-	}
-
-	private int getFoundIdByCheckStr(String checkStr) {
-		boolean checkInt = checkStr.matches("-?\\d+");
-		int foundId = 0;
-
-		if (checkInt) {
-			foundId = Integer.parseInt(checkStr);
-		}
-
-		return foundId;
-	}
-
-	private Article getFoundArticleById(int foundId) {
-		Article foundArticle = null;
-
-		for (Article article : articles) {
-			if (article.articleId == foundId) {
-				foundArticle = article;
-			}
-		}
-
-		return foundArticle;
-	}
-	
-	public void makeTestData() {
-		articles.add(new Article("제목1", "내용1", 1, "admin"));
-		articles.add(new Article("제목2", "내용2", 1, "admin"));
-		articles.add(new Article("제목3", "내용3", 1, "admin"));
-
-		System.out.println("게시물의 테스트 데이터를 생성했습니다.");
 	}
 }

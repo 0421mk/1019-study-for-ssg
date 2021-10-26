@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ssg.container.Container;
 import com.ssg.controller.ArticleController;
 import com.ssg.controller.Controller;
 import com.ssg.controller.MemberController;
@@ -20,7 +21,7 @@ public class App {
 		ArticleController articleController = new ArticleController(scanner);
 		Controller controller = null;
 		
-		articleController.makeTestData();
+		Container.articleDao.makeTestData();
 		memberController.makeTestData();
 
 		while (true) {
