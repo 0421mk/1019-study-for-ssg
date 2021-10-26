@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.ssg.dto.Article;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	private Scanner scanner;
 	private List<Article> articles;
@@ -16,7 +16,30 @@ public class ArticleController {
 		this.articles = articles;
 	}
 
-	public void doWrite() {
+	public void doAction(String command, String actionMethodName) {
+		switch (actionMethodName) {
+		case "write":
+			doWrite();
+			break;
+		case "modify":
+			doModify(command);
+			break;
+		case "delete":
+			doDelete(command);
+			break;
+		case "list":
+			showList(command);
+			break;
+		case "detail":
+			showDetail(command);
+			break;
+		default :
+			System.out.println("잘못된 명령어입니다.");
+			break;
+		}
+	}
+
+	private void doWrite() {
 		System.out.printf("제목 : ");
 		String title = scanner.nextLine();
 
@@ -29,7 +52,7 @@ public class ArticleController {
 		System.out.println(article.articleId + "번 게시물이 생성되었습니다.");
 	}
 
-	public void showList(String command) {
+	private void showList(String command) {
 
 		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다.");
@@ -65,7 +88,7 @@ public class ArticleController {
 
 	}
 
-	public void showDetail(String command) {
+	private void showDetail(String command) {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -100,7 +123,7 @@ public class ArticleController {
 
 	}
 
-	public void doModify(String command) {
+	private void doModify(String command) {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -137,7 +160,7 @@ public class ArticleController {
 
 	}
 
-	public void doDelete(String command) {
+	private void doDelete(String command) {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -167,7 +190,7 @@ public class ArticleController {
 
 	}
 
-	int getFoundIdByCheckStr(String checkStr) {
+	private int getFoundIdByCheckStr(String checkStr) {
 		boolean checkInt = checkStr.matches("-?\\d+");
 		int foundId = 0;
 
@@ -178,7 +201,7 @@ public class ArticleController {
 		return foundId;
 	}
 
-	Article getFoundArticleById(int foundId) {
+	private Article getFoundArticleById(int foundId) {
 		Article foundArticle = null;
 
 		for (Article article : articles) {

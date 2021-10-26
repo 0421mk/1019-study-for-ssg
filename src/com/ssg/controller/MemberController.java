@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import com.ssg.dto.Member;
 
-public class MemberController {
+public class MemberController extends Controller {
 	
 	private Scanner scanner;
 	private List<Member> members;
@@ -13,6 +13,17 @@ public class MemberController {
 	public MemberController(Scanner scanner, List<Member> members) {
 		this.scanner = scanner;
 		this.members = members;
+	}
+	
+	public void doAction(String command, String actionMethodName) {
+		switch (actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		default :
+			System.out.println("잘못된 명령어입니다.");
+			break;
+		}
 	}
 	
 	public void doJoin() {
