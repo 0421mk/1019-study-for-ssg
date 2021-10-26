@@ -132,6 +132,11 @@ public class ArticleController extends Controller {
 
 	private void doModify(String command) {
 		
+		if (loginedMember == null) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
@@ -174,6 +179,12 @@ public class ArticleController extends Controller {
 	}
 
 	private void doDelete(String command) {
+		
+		if (loginedMember == null) {
+			System.out.println("로그인 후 이용해주세요.");
+			return;
+		}
+		
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 

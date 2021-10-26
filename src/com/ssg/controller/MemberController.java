@@ -34,6 +34,12 @@ public class MemberController extends Controller {
 	}
 
 	public void doJoin() {
+		
+		if (loginedMember != null) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		}
+		
 		String loginId = null;
 
 		while (true) {
@@ -89,7 +95,7 @@ public class MemberController extends Controller {
 	public void doLogin() {
 
 		if (loginedMember != null) {
-			System.out.println("이미 로그인되어 있습니다.");
+			System.out.println("로그아웃 후 이용해주세요.");
 			return;
 		}
 
