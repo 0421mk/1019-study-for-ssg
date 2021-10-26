@@ -3,6 +3,7 @@ package com.ssg.controller;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ssg.container.Container;
 import com.ssg.dto.Article;
 import com.ssg.dto.Member;
 
@@ -11,9 +12,9 @@ public class MemberController extends Controller {
 	private Scanner scanner;
 	private List<Member> members;
 
-	public MemberController(Scanner scanner, List<Member> members) {
+	public MemberController(Scanner scanner) {
 		this.scanner = scanner;
-		this.members = members;
+		this.members = Container.memberDao.members;
 	}
 
 	public void doAction(String command, String actionMethodName) {

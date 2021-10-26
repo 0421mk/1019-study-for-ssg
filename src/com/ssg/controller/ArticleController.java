@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ssg.container.Container;
 import com.ssg.dto.Article;
 
 public class ArticleController extends Controller {
@@ -11,9 +12,9 @@ public class ArticleController extends Controller {
 	private Scanner scanner;
 	private List<Article> articles;
 
-	public ArticleController(Scanner scanner, List<Article> articles) {
+	public ArticleController(Scanner scanner) {
 		this.scanner = scanner;
-		this.articles = articles;
+		this.articles = Container.articleDao.articles;
 	}
 
 	public void doAction(String command, String actionMethodName) {

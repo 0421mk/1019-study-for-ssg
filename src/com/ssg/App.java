@@ -12,20 +12,12 @@ import com.ssg.dto.Member;
 
 public class App {
 
-	List<Article> articles;
-	List<Member> members;
-
-	App() {
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
-	}
-
 	void start() {
 		System.out.println("==== 프로그램 시작 ====");
 		Scanner scanner = new Scanner(System.in);
 
-		MemberController memberController = new MemberController(scanner, members);
-		ArticleController articleController = new ArticleController(scanner, articles);
+		MemberController memberController = new MemberController(scanner);
+		ArticleController articleController = new ArticleController(scanner);
 		Controller controller = null;
 		
 		articleController.makeTestData();
