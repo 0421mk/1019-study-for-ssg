@@ -18,7 +18,7 @@ public class ArticleDao {
 
 	public List<Article> getSearchedArticlesByKeyword(String searchKeyword) {
 		
-		List<Article> searchedArticles = null;
+		List<Article> searchedArticles = new ArrayList<>();
 	
 		if (searchKeyword.length() > 0) {
 			for (Article article : articles) {

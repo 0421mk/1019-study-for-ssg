@@ -61,8 +61,8 @@ public class ArticleController extends Controller {
 
 	private void showList(String command) {
 
-		String searchKeyword = command.substring("article list".length()).trim();
-
+		String searchKeyword = command.substring("article list".length()).trim();		
+		
 		List<Article> searchedArticles = articleService.getSearchedArticlesByKeyword(searchKeyword);
 		
 		if (searchedArticles.size() == 0) {
@@ -81,7 +81,7 @@ public class ArticleController extends Controller {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
-		if (commandBits.length > 3) {
+		if (commandBits.length != 3) {
 			System.out.println("명령어를 잘못입력하셨습니다.");
 			return;
 		}
@@ -114,8 +114,7 @@ public class ArticleController extends Controller {
 	}
 
 	private void doModify(String command) {
-		
-		if (loginedMember == null) {
+			if (loginedMember == null) {
 			System.out.println("로그인 후 이용해주세요.");
 			return;
 		}
@@ -123,7 +122,7 @@ public class ArticleController extends Controller {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
-		if (commandBits.length > 3) {
+		if (commandBits.length != 3) {
 			System.out.println("명령어를 잘못입력하셨습니다.");
 			return;
 		}
@@ -170,7 +169,7 @@ public class ArticleController extends Controller {
 		command = command.trim();
 		String[] commandBits = command.split(" ");
 
-		if (commandBits.length > 3) {
+		if (commandBits.length != 3) {
 			System.out.println("명령어를 잘못입력하셨습니다.");
 			return;
 		}
